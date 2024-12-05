@@ -3,7 +3,9 @@ const app = express();
 const mongoose = require("mongoose");
 app.use(express.json());
 const dotenv = require("dotenv");
+const cors = require("cors");
 dotenv.config();
+app.use(cors());
 
 const postModel = require("./Routes/postRouter");
 const userRouter = require("./Routes/userRouter");
@@ -11,7 +13,7 @@ const commentModel = require("./Routes/commentRouter");
 
 const dataBase = async () => {
   try {
-    const a = await mongoose.connect(process.env.MONGODB_URI());
+    const a = await mongoose.connect(process.env.MONGODB_URI);
     console.log("connect to db");
   } catch (error) {
     console.log(error);
