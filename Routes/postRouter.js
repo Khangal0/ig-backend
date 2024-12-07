@@ -20,4 +20,13 @@ useRoute.post("/createPost", async (req, res) => {
   }
 });
 
+useRoute.get("/posts", async (req, res) => {
+  try {
+    const posts = await postModel.find().populate("userId");
+    res.status(200).json(posts);
+  } catch (error) {
+    throw new Error(error);
+  }
+});
+
 module.exports = useRoute;
