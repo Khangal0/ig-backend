@@ -5,6 +5,7 @@ const commentSchema = new Schema(
     comment: { type: String, required: true },
     userId: { type: String, required: true },
     postId: { type: String, required: true },
+    profileImg: { type: String, ref: "Users" },
   }
   //   { timestamps: true }
 );
