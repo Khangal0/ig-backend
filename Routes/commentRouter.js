@@ -8,7 +8,7 @@ useRoute.post("/post/comment", async (req, res) => {
   try {
     const comments = await postModel
       .find()
-      .populate("comments", "comment username profileImg");
+      .populate("comment", "comment username profileImg");
     const response = await commentModel.create({ comment, userId, postId });
     await postModel.findByIdAndUpdate(postId, {
       $push: {
