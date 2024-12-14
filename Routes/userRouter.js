@@ -1,21 +1,37 @@
 const Route = require("express");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 const useRouter = Route();
 const userModel = require("../model/userSchema");
+const authMiddleware = require("../auth-middleware");
 
 useRouter.post("/signup", async (req, res) => {
   try {
-    // const hashPassword = bcrypt.hash(password, 5);
-    // const { password } = body;
     const body = req.body;
-    const response = await userModel.create(body);
-    res.send(response);
+    const { password, username, email } = body;
+    const hashPassword = await bcrypt.hash(password, 10);
+    const response = await userModel.create({
+      username,
+      email,
+      password: hashPassword,
+    });
+
+    const token = jwt.sign(
+      {
+        userId: response._id,
+        username: response.username,
+      },
+      process.env.JWT_SECRET,
+      { expiresIn: "24h" }
+    );
+
+    res.send({ token });
   } catch (error) {
-    console.log(error);
-    res.send(error);
+    throw new Error(error);
   }
 });
 
-useRouter.get("/user/post", async (req, res) => {
+useRouter.get("/user/post", authMiddleware, async (req, res) => {
   try {
     const post = await userModel.find().populate("post", "caption postImg");
 
