@@ -5,7 +5,9 @@ const userModel = require("../model/userSchema");
 
 useRoute.post("/createPost", async (req, res) => {
   try {
-    const post = await userModel.find().populate("post", "caption postImg");
+    const post = await userModel
+      .find()
+      .populate("post", "caption postImg comments");
     const body = req.body;
     const response = await postModel.create(body);
     await userModel.findByIdAndUpdate(body.userId, {

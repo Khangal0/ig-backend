@@ -3,12 +3,12 @@ const commentModel = require("../model/commetSchema");
 const postModel = require("../model/postSchema");
 const useRoute = Route();
 
-useRoute.post("/post/comment", async (req, res) => {
+useRoute.post("/comments", async (req, res) => {
   const { comment, userId, postId } = req.body;
   try {
     const comments = await postModel
       .find()
-      .populate("comment", "comment username profileImg");
+      .populate("userId", "comment username profileImg");
     const response = await commentModel.create({ comment, userId, postId });
     await postModel.findByIdAndUpdate(postId, {
       $push: {
