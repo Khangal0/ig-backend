@@ -15,11 +15,9 @@ useRoute.post("/comments", async (req, res) => {
         comments: response._id,
       },
     });
-    console.log(response);
     res.send(response);
   } catch (error) {
     res.send(error);
-    console.log(error);
   }
 });
 
