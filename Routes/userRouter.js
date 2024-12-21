@@ -1,11 +1,11 @@
 const Route = require("express");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const useRouter = Route();
+const userRouter = Route();
 const userModel = require("../model/userSchema");
 const authMiddleware = require("../auth-middleware");
 
-useRouter.post("/signup", async (req, res) => {
+userRouter.post("/signup", async (req, res) => {
   try {
     const body = req.body;
     const { password, username, email } = body;
@@ -25,13 +25,13 @@ useRouter.post("/signup", async (req, res) => {
       { expiresIn: "24h" }
     );
 
-    res.json({ response, token });
+    res.json({ user: response, token });
   } catch (error) {
     throw new Error(error);
   }
 });
 
-useRouter.get("/user/post", authMiddleware, async (req, res) => {
+userRouter.get("/user/post", authMiddleware, async (req, res) => {
   try {
     const post = await userModel.find().populate("post", "caption postImg");
 
@@ -41,7 +41,7 @@ useRouter.get("/user/post", authMiddleware, async (req, res) => {
   }
 });
 
-useRouter.post("/user/follow", async (req, res) => {
+userRouter.post("/user/follow", async (req, res) => {
   try {
     const { followingUserId, followersUserId } = req.body;
     const response = await userModel.findByIdAndUpdate(followersUserId, {
@@ -60,7 +60,7 @@ useRouter.post("/user/follow", async (req, res) => {
   }
 });
 
-useRouter.delete("/user/unfollow", async (req, res) => {
+userRouter.delete("/user/unfollow", async (req, res) => {
   try {
     const body = req.body;
     const response = await userModel.findByIdAndDelete(body.followers);
@@ -72,4 +72,4 @@ useRouter.delete("/user/unfollow", async (req, res) => {
   }
 });
 
-module.exports = useRouter;
+module.exports = userRouter;
