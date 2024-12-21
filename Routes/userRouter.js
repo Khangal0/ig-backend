@@ -25,7 +25,7 @@ useRouter.post("/signup", async (req, res) => {
       { expiresIn: "24h" }
     );
 
-    res.send({ token });
+    res.json({ response, token });
   } catch (error) {
     throw new Error(error);
   }
