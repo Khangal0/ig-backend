@@ -8,9 +8,10 @@ app.use(cors());
 app.use(express.json());
 dotenv.config();
 
-const postModel = require("./Routes/postRouter");
+const postRouter = require("./Routes/postRouter");
 const userRouter = require("./Routes/userRouter");
-const commentModel = require("./Routes/commentRouter");
+const commentRouter = require("./Routes/commentRouter");
+const likeRouter = require("./Routes/likeRouter");
 
 const dataBase = async () => {
   try {
@@ -23,8 +24,9 @@ const dataBase = async () => {
 
 dataBase();
 
-app.use(postModel);
+app.use(postRouter);
 app.use(userRouter);
-app.use(commentModel);
+app.use(commentRouter);
+app.use(likeRouter);
 
 app.listen(8080, console.log("running"));
