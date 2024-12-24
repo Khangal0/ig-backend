@@ -17,6 +17,7 @@ likeRoute.post("/like", async (req, res) => {
         select: "userName profileImage",
       },
     });
+    res.send(comment);
     await postModel.findByIdAndUpdate(postId, {
       $addToSet: {
         likes: newPopulatedLike,
