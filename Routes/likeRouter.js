@@ -7,7 +7,7 @@ likeRoute.post("/like", async (req, res) => {
   try {
     const likedPost = await postModel.findByIdAndUpdate(postId, {
       $addToSet: {
-        likes: userId,
+        like: userId,
       },
     });
     res.send(likedPost);
