@@ -21,4 +21,15 @@ useRoute.post("/comments", async (req, res) => {
   }
 });
 
+useRoute.get("/comment", async (req, res) => {
+  try {
+    const comments = await commentModel
+      .findById(postId)
+      .populate("userId", "profileImg username");
+    res.status(200).json(comments);
+  } catch (error) {
+    res.send(error);
+  }
+});
+
 module.exports = useRoute;
