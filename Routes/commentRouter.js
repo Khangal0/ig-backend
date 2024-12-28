@@ -22,13 +22,20 @@ useRoute.post("/createComment", async (req, res) => {
 });
 
 useRoute.get("/comment", async (req, res) => {
+  const { postId } = req.params;
+  console.log(postId, "working");
   try {
-    const comments = await commentModel
-      .findById(postId)
-      .populate("userId", "profileImg username");
-    res.status(200).json(comments);
+    const comment = await postModel.findById(postId).populate({
+      path: "comments",
+      populate: {
+        path: "userId",
+        select: "username profileImg",
+      },
+    });
+    res.send(comment);
   } catch (error) {
-    res.send(error);
+    res.send({ error });
+    console.log(error);
   }
 });
 
