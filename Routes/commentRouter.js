@@ -3,7 +3,7 @@ const commentModel = require("../model/commetSchema");
 const postModel = require("../model/postSchema");
 const useRoute = Route();
 
-useRoute.post("/comments", async (req, res) => {
+useRoute.post("/createComment", async (req, res) => {
   const { comment, userId, postId } = req.body;
   try {
     const comments = await postModel
