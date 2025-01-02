@@ -21,9 +21,8 @@ useRoute.post("/createComment", async (req, res) => {
   }
 });
 
-useRoute.get("/comment", async (req, res) => {
+useRoute.get("/comment/:postId", async (req, res) => {
   const { postId } = req.params;
-  console.log(postId, "working");
   try {
     const comment = await postModel.findById(postId).populate({
       path: "Comments",
