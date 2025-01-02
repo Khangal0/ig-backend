@@ -21,20 +21,17 @@ useRoute.post("/createComment", async (req, res) => {
   }
 });
 
-useRoute.get("/comment", async (req, res) => {
+useRoute.get("/getComment/:postId", async (req, res) => {
   const { postId } = req.params;
   try {
-    const comment = await postModel.findById(postId).populate({
-      path: "Comments",
-      populate: {
-        path: "userId",
-        select: "username profileImg",
-      },
-    });
+    const comment = await postModel
+      .findById(postId)
+      .populate("comments", "comment userId");
+    console.log(comment);
     res.send(comment);
   } catch (error) {
-    res.send({ error });
     console.log(error);
+    res.send(error);
   }
 });
 
