@@ -26,7 +26,7 @@ useRoute.get("/comment", async (req, res) => {
   console.log(postId, "working");
   try {
     const comment = await postModel.findById(postId).populate({
-      path: "comments",
+      path: "Comments",
       populate: {
         path: "userId",
         select: "username profileImg",
