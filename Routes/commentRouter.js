@@ -26,7 +26,8 @@ useRoute.get("/getComment/:postId", async (req, res) => {
   try {
     const comment = await postModel
       .findById(postId)
-      .populate("comments", "comment userId");
+      .populate("comments", "comment userId")
+      .populate("userId", "profileImg username");
     console.log(comment);
     res.send(comment);
   } catch (error) {
