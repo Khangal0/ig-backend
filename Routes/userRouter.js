@@ -31,10 +31,10 @@ userRouter.post("/signup", async (req, res) => {
   }
 });
 
-userRouter.get("/user/post", authMiddleware, async (req, res) => {
+userRouter.get("/user/post/:_id", authMiddleware, async (req, res) => {
+  const { _id } = req.params;
   try {
-    const post = await userModel.find().populate("post", "caption postImg");
-
+    const post = await userModel.find(id).populate("post");
     res.send(post);
   } catch (error) {
     res.send(error);
