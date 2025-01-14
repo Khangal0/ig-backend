@@ -1,15 +1,13 @@
 const jwt = require("jsonwebtoken");
-
 const authMiddleware = (req, res, next) => {
-  const auth = req.headers["Authorization"];
-  const token = auth.split(" ")[1];
-  if (!token) res.json({ message: "no token in header" });
+  const head = req.headers["authorization"];
+  const token = head.split(" ")[1];
 
-  const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
-  if (decodedToken) {
+  const token2 = jwt.verify(token, process.env.JWT_SECRET);
+  if (token2) {
     next();
   } else {
-    res.json({ message: "invalid token" });
+    res.send("err");
   }
 };
 
